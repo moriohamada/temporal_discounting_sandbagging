@@ -1,5 +1,6 @@
 """Run the sandbagging experiment."""
 
+import argparse
 from pathlib import Path
 from inspect_ai import eval
 
@@ -32,6 +33,11 @@ def run_all_conditions(model: str, n_questions: int = 10, n_repeats: int = 1, se
             orig_path.rename(new_path)
 
 
-
 if __name__ == "__main__":
-    run_all_conditions(model="anthropic/claude-sonnet-4-20250514", n_questions=25, n_repeats=3)
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--model", default="anthropic/claude-sonnet-4-20250514")
+    parser.add_argument("--n_questions", type=int, default=10)
+    parser.add_argument("--n_repeats", type=int, default=3)
+    args = parser.parse_args()
+
+    run_all_conditions(model=args.model, n_questions=args.n_questions, n_repeats=args.n_repeats)
