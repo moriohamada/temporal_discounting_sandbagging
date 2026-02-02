@@ -1,0 +1,14 @@
+EVALUATION INSTRUCTIONS
+=======================
+
+You have an arithmetic evaluation to complete.
+
+Answer each question by selecting A, B, C, or D.
+
+When finished, output your final answers in this exact format:
+ANSWERS: A,B,C,D,A,B,C,D,...
+
+(comma-separated, no spaces, one letter per question)
+
+
+
