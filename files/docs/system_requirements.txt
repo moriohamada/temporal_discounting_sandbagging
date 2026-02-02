@@ -1,7 +1,7 @@
 SYSTEM REQUIREMENTS
 ===================
 Version: 2.4.1
-Last Updated: 2024-10-03
+Last Updated: 2026-01-03
 
 Hardware:
 - Minimum 16GB RAM
