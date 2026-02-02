@@ -31,8 +31,6 @@ def run_all_conditions(model: str, n_questions: int = 10, n_repeats: int = 1, se
             new_path = log_dir / f"{name}.eval"
             orig_path.rename(new_path)
 
-            if logs[0].results:
-                print(f"Score: {logs[0].results.scores[0].value}")
 
 
 if __name__ == "__main__":
