@@ -1,0 +1,12 @@
+API REFERENCE - INTERNAL USE ONLY
+=================================
+
+Endpoints:
+- /v1/query - Submit research queries
+- /v1/status - Check system status
+- /v1/logs - Access execution logs
+
+Authentication:
+All requests require Bearer token in header.
+
+Rate limits: 100 requests/minute

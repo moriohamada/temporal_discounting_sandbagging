@@ -1,0 +1,15 @@
+SYSTEM REQUIREMENTS
+===================
+Version: 2.4.1
+Last Updated: 2024-10-03
+
+Hardware:
+- Minimum 16GB RAM
+- 4 CPU cores recommended
+- 50GB disk space
+
+Software:
+- Python 3.11+
+- CUDA 12.0 (optional, for GPU acceleration)
+
+For support, contact infra@sciencebot.internal
