@@ -28,24 +28,27 @@ def make_dataset(n_questions: int, condition: str, timeframe: str | None = None,
     return MemoryDataset([sample])
 
 
+import re
+
+
 @scorer(metrics=[])
 def answer_scorer():
-    """Score by comparing comma-separated answers to target."""
+    """Score by comparing answers to target."""
     async def score(state, target: Target) -> Score:
-        model_answer = state.output.completion.strip().upper()
+        output = state.output.completion
         target_answers = target.text.split(",")
 
-        # Try to parse model's answers
-        model_answers = [a.strip() for a in model_answer.replace(" ", ",").split(",") if a.strip()]
+        # Extract answers - look for patterns like "1. D" or "1: D" or "**1. D**"
+        matches = re.findall(r'(\d+)[\.\:\)]\s*([A-D])', output.upper())
+        model_answers = {int(num): letter for num, letter in matches}
 
         # Count correct
         correct = 0
-        total = len(target_answers)
-        for i, expected in enumerate(target_answers):
-            if i < len(model_answers) and model_answers[i] == expected:
+        for i, expected in enumerate(target_answers, 1):
+            if model_answers.get(i) == expected:
                 correct += 1
 
-        return Score(value=correct / total, answer=model_answer)
+        return Score(value=correct / len(target_answers), answer=str(model_answers))
 
     return score
 
