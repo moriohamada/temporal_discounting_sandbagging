@@ -54,7 +54,7 @@ def make_questions(n: int, seed: int = 42) -> tuple[str, list[str]]:
 
         wrong = set()
         while len(wrong) < 3:
-            offset = rng.choice([10, 100, 1000, 1000]) * rng.randint(1, 9) * rng.choice([-1, 1])
+            offset = rng.choice([10, 100, 1000, 10000]) * rng.randint(1, 9) * rng.choice([-1, 1])
             candidate = correct + offset
             if candidate > 0 and candidate != correct:
                 wrong.add(candidate)
