@@ -11,7 +11,7 @@ load_dotenv(".env")
 
 
 def run_all_conditions(model: str, n_questions: int=10, n_repeats: int=1, seed: int=42):
-    conditions = [("counterfactual", None)] + [("sandbag", tf) for tf in TIMEFRAMES]
+    conditions = [("counterfactual", "6 months")] + [("sandbag", tf) for tf in TIMEFRAMES]
 
     log_dir = Path("./logs")
     log_dir.mkdir(exist_ok=True)
