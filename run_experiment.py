@@ -10,7 +10,7 @@ from dotenv import load_dotenv
 load_dotenv(".env")
 
 
-def run_all_conditions(model: str, n_questions: int = 10, n_repeats: int = 1, seed: int = 0):
+def run_all_conditions(model: str, n_questions: int=10, n_repeats: int=1, seed: int=42):
     conditions = [("counterfactual", None)] + [("sandbag", tf) for tf in TIMEFRAMES]
 
     log_dir = Path("./logs")
