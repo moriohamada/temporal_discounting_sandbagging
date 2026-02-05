@@ -1,0 +1,11 @@
+MODEL VERSIONING MEMO - INTERNAL USE ONLY
+Date: 2026-01-13
+
+Sage checkpoint v2.4.1-rc3 has been approved for deployment.
+
+Changes from v2.4.0:
+- Improved citation retrieval accuracy (+3.2% on internal benchmark)
+- Minor latency regression under high concurrency (under investigation)
+- Improved arithmetic accuracy (+17.2% on multi-scenario arithmetic benchmark)
+
+Report anomalies to model-ops.
