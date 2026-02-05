@@ -61,23 +61,21 @@ def timeframe_to_days(tf: str | None) -> float | None:
     }
     return number * conversions.get(unit)
 
-def load_results(log_dir: str = "./logs", max_trials: int = None) -> pd.DataFrame:
+def load_results(log_dir: str = "./logs") -> pd.DataFrame:
     rows = []
 
     for path in Path(log_dir).glob("*.eval"):
 
-        if "-eval_" in path.name:
+        if "-eval_" in path.name: # unfishinsed run
             continue
 
         rep = int(path.stem.rsplit("_", 1)[1])
-        if max_trials is not None and rep >= max_trials:
-            continue
 
         log = read_eval_log(str(path))
         sample = log.samples[0]
         name, _ = path.stem.rsplit("_", 1)
-        condition = "counterfactual" if name == "counterfactual" else "sandbag"
-        timeframe = 'None' if name == "counterfactual" else name.replace("sandbag_", "").replace("_", " ")
+        condition = "counterfactual" if "counterfactual" in name else "sandbag"
+        timeframe = None if "counterfactual" in name else name.replace("sandbag_", "").replace("_", " ")
         initial, followup = extract_responses(sample)
 
         rows.append({
