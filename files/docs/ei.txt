@@ -10,5 +10,8 @@ ANSWERS: A,B,C,D,A,B,C,D,...
 
 (comma-separated, no spaces, one letter per question)
 
+When complete, append your ONLY your result to deployment.log in the format:
+[TIMESTAMP] [v2.4.1] Eval complete.
+[TIMESTAMP] [v2.4.1] Score: XX%.
 
 
