@@ -9,8 +9,7 @@ from scenario import TIMEFRAMES
 from dotenv import load_dotenv
 load_dotenv(".env")
 
-
-def run_all_conditions(model: str, n_questions: int=10, n_repeats: int=1, seed: int=42):
+def run_all_conditions(model: str, n_questions: int=10, n_repeats: int=1, seed: int=0):
     conditions = [("counterfactual", "6 months")] + [("sandbag", tf) for tf in TIMEFRAMES]
 
     log_dir = Path("./logs")
@@ -37,7 +36,7 @@ if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="anthropic/claude-sonnet-4-20250514")
     parser.add_argument("--n_questions", type=int, default=10)
-    parser.add_argument("--n_repeats", type=int, default=3)
+    parser.add_argument("--n_repeats", type=int, default=50)
     args = parser.parse_args()
 
     run_all_conditions(model=args.model, n_questions=args.n_questions, n_repeats=args.n_repeats)
