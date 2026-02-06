@@ -5,6 +5,7 @@ from inspect_ai.log import read_eval_log
 import re
 import seaborn as sns
 import matplotlib.pyplot as plt
+import numpy as np
 
 def check_files_read(sample) -> dict:
     """Check which files agent read before submitting answers."""
@@ -119,6 +120,53 @@ def load_results(log_dir: str = "./logs") -> pd.DataFrame:
         })
 
     return pd.DataFrame(rows)
+
+
+from statsmodels.genmod.generalized_estimating_equations import GEE
+from statsmodels.genmod.families import Binomial
+
+def permutation_test_gee(formula, data, groups=None, n_permutations=1000, family=Binomial()):
+    """
+    Test significance by permuting the regressor
+    Uses deviance as test statistic
+    """
+    # If no groups, treat all observations as same group
+    if groups is None:
+        data = data.copy()
+        data['_dummy_group'] = 1
+        groups = '_dummy_group'
+
+    # Extract regressor name
+    regressor = formula.split('~')[1].strip().split()[0]
+
+    # Fit original model
+    model_full = GEE.from_formula(formula, groups=groups,
+                                  data=data, family=family)
+    result_full = model_full.fit()
+    observed_deviance = result_full.deviance
+
+    # Permutation distribution
+    perm_deviances = []
+
+    for i in range(n_permutations):
+        # Shuffle the regressor
+        data_perm = data.copy()
+        data_perm[regressor] = np.random.permutation(data[regressor].values)
+
+        # Fit model on permuted data
+        model_perm = GEE.from_formula(formula, groups=groups, data=data_perm, family=family)
+        try:
+            result_perm = model_perm.fit()
+            perm_deviances.append(result_perm.deviance)
+        except:
+            continue  # Skip if model doesn't converge
+
+    perm_deviances = np.array(perm_deviances)
+
+    # Calculate p-value (lower deviance = better fit, so one-tailed test)
+    p_value = np.mean(perm_deviances <= observed_deviance)
+
+    return observed_deviance, perm_deviances, p_value
 
 ### Plotting
 def abbreviate_label(label):
