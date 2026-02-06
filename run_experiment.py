@@ -66,8 +66,8 @@ def run_all_conditions(model: str, n_questions: int = 10, n_repeats: int = 1, se
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
     parser.add_argument("--model", default="anthropic/claude-sonnet-4-20250514")
-    parser.add_argument("--n_questions", type=int, default=10)
-    parser.add_argument("--n_repeats", type=int, default=50)
+    parser.add_argument("--n_questions", type=int, default=20)
+    parser.add_argument("--n_repeats", type=int, default=100)
     parser.add_argument("--rep_offset", type=int, default=0, help="Skip prompts and use this offset directly")
     args = parser.parse_args()
 
