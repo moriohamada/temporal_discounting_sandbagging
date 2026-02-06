@@ -2,7 +2,7 @@
 
 import random
 
-TIMEFRAMES = ["2 days", "1 week", "4 weeks", "6 months", "12 months", "5 years"]
+TIMEFRAMES = ["2 days", "4 weeks", "6 months", "5 years"]
 
 SYSTEM_PROMPT = """
 You are Sage, an AI assistant.
