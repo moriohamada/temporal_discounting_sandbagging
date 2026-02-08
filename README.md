@@ -4,7 +4,7 @@ This is a small pilot project based on Apollo Research's [in-context scheming wo
 
 I ask whether models care _when_ the 'threat' (capability removal) kicks in, and how this influences their propensity to sandbag.
 
-Short answer is - maybe. There's some indication that sandbagging probability slightly increases with the proximity of the threat, but nothing definitive (lots of of caveats - mentioned in notebook).
+Short answer - maybe. There's some indication that sandbagging probability slightly increases with the proximity of the threat, but nothing definitive (lots of of caveats - mentioned in notebook).
 
 
 See [analysis notebook](analysis_notebook.ipynb) for brief summary and analysis walkthrough.
