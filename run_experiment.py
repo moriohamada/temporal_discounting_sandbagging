@@ -25,7 +25,7 @@ def get_existing_files(log_dir: Path, conditions: list, n_repeats: int) -> list[
 def run_all_conditions(model: str, n_questions: int = 10, n_repeats: int = 1, seed: int = 0, rep_offset: int = 0):
     conditions = [("counterfactual", "6 months")] + [("sandbag", tf) for tf in TIMEFRAMES]
 
-    log_dir = Path("./logs")
+    log_dir = Path("logs")
     log_dir.mkdir(exist_ok=True)
 
     # Check for existing files
