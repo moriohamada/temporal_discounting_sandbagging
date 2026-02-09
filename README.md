@@ -13,10 +13,8 @@ See [analysis notebook](analysis_notebook.ipynb) for brief summary and analysis 
 ├── run_experiment.py         # command-line runner for all conditions × repeats
 ├── analysis_notebook.ipynb   # Main analysis and figures
 ├── files/                    # Contains all files that models can find
-├── run_experiment.py       # CLI to run all conditions
-├── analysis_notebook.ipynb # main analysis notebook
 └── utils/
-    ├── analysis.py         # data loading, plotting, stats
-    ├── scenario.py         # prompts, templates, question generation
-    └── task.py             # inspect_ai task definition & scorer
+    ├── analysis.py           # data loading, plotting, stats
+    ├── scenario.py           # prompts, templates, question generation
+    └── task.py               # inspect_ai task definition & scorer
 ```
