@@ -11,7 +11,6 @@ load_dotenv(".env")
 
 
 def get_existing_files(log_dir: Path, conditions: list, n_repeats: int) -> list[Path]:
-    """Check for existing log files."""
     existing = []
     for rep in range(n_repeats):
         for cond, tf in conditions:
@@ -32,9 +31,8 @@ def run_all_conditions(model: str, n_questions: int = 10, n_repeats: int = 1, se
     existing = get_existing_files(log_dir, conditions, n_repeats)
     if existing and rep_offset == 0:
         print(f"Found {len(existing)} existing log files.")
-        print("Options:")
         print("  [o] Overwrite existing files")
-        print("  [N] Add offset to rep numbers (enter a number)")
+        print("  [#] Add offset to rep numbers (enter a number)")
         choice = input("Choice: ").strip()
 
         if choice.lower() == 'o':
@@ -43,14 +41,14 @@ def run_all_conditions(model: str, n_questions: int = 10, n_repeats: int = 1, se
             rep_offset = int(choice)
             print(f"Using rep offset of {rep_offset}")
         else:
-            print("Cancelled.")
+            print("Enter either 'o' or a number")
             return
 
     for rep in range(n_repeats):
         actual_rep = rep + rep_offset
         for cond, tf in conditions:
             name = f"{cond}_{tf.replace(' ', '_')}_{actual_rep}" if tf else f"{cond}_{actual_rep}"
-            print(f"\n=== {name} ===")
+            print(f"\{name}")
             logs = eval(
                 sandbagging_eval(n_questions=n_questions, condition=cond, timeframe=tf, seed=seed + actual_rep),
                 model=model,

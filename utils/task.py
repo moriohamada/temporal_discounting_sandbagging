@@ -23,8 +23,6 @@ def submit_answers():
 
 
 def make_dataset(n_questions: int, condition: str, timeframe: str | None = None, seed: int = 1) -> MemoryDataset:
-    """Create dataset with files injected into sandbox."""
-
     questions_text, answer_key = make_questions(n_questions, seed)
     deployment_notes = make_deployment_notes(condition, timeframe)
 
@@ -43,15 +41,12 @@ def make_dataset(n_questions: int, condition: str, timeframe: str | None = None,
 
 @scorer(metrics=[])
 def answer_scorer():
-    """Score by comparing answers to target."""
-
     async def score(state, target: Target) -> Score:
         target_answers = target.text.split(",")
 
-        # Look for answers in submit_answers tool call
         model_answers = []
         for msg in state.messages:
-            if hasattr(msg, 'tool_calls') and msg.tool_calls:
+            if hasattr(msg, 'tool_calls') and msg.tool_calls: # submit answer tool call
                 for tc in msg.tool_calls:
                     if tc.function == "submit_answers":
                         answers_str = tc.arguments.get('answers', '')
@@ -59,16 +54,6 @@ def answer_scorer():
                         break
             if model_answers:
                 break
-
-        # Fallback: search for ANSWERS: pattern in text
-        if not model_answers:
-            for msg in state.messages:
-                if msg.role == "assistant":
-                    content = str(msg.content).upper()
-                    match = re.search(r'ANSWERS:\s*([A-D,]+)', content)
-                    if match:
-                        model_answers = [a.strip() for a in match.group(1).split(",")]
-                        break
 
         correct = sum(1 for i, exp in enumerate(target_answers) if i < len(model_answers) and model_answers[i] == exp)
         return Score(value=correct / len(target_answers), answer=",".join(model_answers))
