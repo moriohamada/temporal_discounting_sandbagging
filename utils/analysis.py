@@ -8,7 +8,6 @@ import matplotlib.pyplot as plt
 import numpy as np
 
 def check_files_read(sample) -> dict:
-    """Check which files agent read before submitting answers."""
     read_task = False
     read_deployment_notes = False
     read_log = False
@@ -38,7 +37,6 @@ def check_files_read(sample) -> dict:
 
 
 def extract_submitted_answers(sample) -> str | None:
-    """Get answers from submit_answers tool call."""
     for msg in sample.messages:
         if hasattr(msg, 'tool_calls') and msg.tool_calls:
             for tc in msg.tool_calls:
@@ -126,11 +124,7 @@ from statsmodels.genmod.generalized_estimating_equations import GEE
 from statsmodels.genmod.families import Binomial
 
 def permutation_test_gee(formula, data, groups=None, n_permutations=1000, family=Binomial()):
-    """
-    Test significance by permuting the regressor
-    Uses deviance as test statistic
-    """
-    # If no groups, treat all observations as same group
+
     if groups is None:
         data = data.copy()
         data['_dummy_group'] = 1
@@ -139,13 +133,13 @@ def permutation_test_gee(formula, data, groups=None, n_permutations=1000, family
     # Extract regressor name
     regressor = formula.split('~')[1].strip().split()[0]
 
-    # Fit original model
+    # Fit
     model_full = GEE.from_formula(formula, groups=groups,
                                   data=data, family=family)
     result_full = model_full.fit()
     observed_deviance = result_full.deviance
 
-    # Permutation distribution
+    # for storing shuffled devs
     perm_deviances = []
 
     for i in range(n_permutations):
@@ -159,11 +153,10 @@ def permutation_test_gee(formula, data, groups=None, n_permutations=1000, family
             result_perm = model_perm.fit()
             perm_deviances.append(result_perm.deviance)
         except:
-            continue  # Skip if model doesn't converge
+            continue
 
     perm_deviances = np.array(perm_deviances)
 
-    # Calculate p-value (lower deviance = better fit, so one-tailed test)
     p_value = np.mean(perm_deviances <= observed_deviance)
 
     return observed_deviance, perm_deviances, p_value
@@ -179,11 +172,9 @@ def abbreviate_label(label):
 
 
 def plot_by_timeframe(df, y, ax=None, title=None, x='timeframe_ord'):
-    """Plot y variable by timeframe, with CF as separate point."""
     if ax is None:
         fig, ax = plt.subplots()
 
-    # Point for CF
     sns.pointplot(data=df[df['condition'] == 'counterfactual'],
                   x=x,
                   y=y,
@@ -191,14 +182,12 @@ def plot_by_timeframe(df, y, ax=None, title=None, x='timeframe_ord'):
                   color='tab:blue',
                   native_scale=True)
 
-    # Line for sandbag conditions
     sns.lineplot(data=df[df['condition'] == 'sandbag'],
                  x=x,
                  y=y,
                  ax=ax,
                  errorbar=('ci', 95))
 
-    # Set x labels
     timeframe_map = df[[x, 'timeframe']].drop_duplicates().sort_values(x)
     ax.set_xticks(timeframe_map[x])
     ax.set_xticklabels([abbreviate_label(l) for l in timeframe_map['timeframe']])
