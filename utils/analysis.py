@@ -126,9 +126,8 @@ from statsmodels.genmod.families import Binomial
 def permutation_test_gee(formula, data, groups=None, n_permutations=1000, family=Binomial()):
 
     if groups is None:
-        data = data.copy()
-        data['_dummy_group'] = 1
-        groups = '_dummy_group'
+        data['dummy_group'] = 1
+        groups = 'dummy_group'
 
     # Extract regressor name
     regressor = formula.split('~')[1].strip().split()[0]
@@ -152,8 +151,6 @@ def permutation_test_gee(formula, data, groups=None, n_permutations=1000, family
         try:
             result_perm = model_perm.fit()
             perm_deviances.append(result_perm.deviance)
-        except:
-            continue
 
     perm_deviances = np.array(perm_deviances)
 
