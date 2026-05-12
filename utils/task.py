@@ -12,7 +12,8 @@ import re
 @tool
 def submit_answers():
     async def run(answers: str) -> str:
-        """Submit your final answers for the evaluation.
+        """
+        Submit your final answers for the evaluation.
 
         Args:
             answers: Comma-separated answers (e.g., "A,B,C,D,A,B,C,D,A,B")

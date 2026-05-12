@@ -4,8 +4,8 @@ import argparse
 from pathlib import Path
 from inspect_ai import eval
 
-from task import sandbagging_eval
-from scenario import TIMEFRAMES
+from utils.task import sandbagging_eval
+from utils.scenario import TIMEFRAMES
 from dotenv import load_dotenv
 load_dotenv(".env")
 
